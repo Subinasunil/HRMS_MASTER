@@ -1,0 +1,8 @@
+django
+djangorestframework
+Psycopg
+django-phonenumber-field
+phonenumbers
+rest_framework_simplejwt
+django-rest-auth
+Pillow
