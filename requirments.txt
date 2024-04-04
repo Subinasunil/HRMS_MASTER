@@ -1,8 +1,9 @@
 django
 djangorestframework
-Psycopg
+psycopg2
 django-phonenumber-field
 phonenumbers
-rest_framework_simplejwt
+djangorestframework-simplejwt
 django-rest-auth
 Pillow
+django-cors-headers

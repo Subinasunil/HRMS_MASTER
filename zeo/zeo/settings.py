@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,11 +29,11 @@ SECRET_KEY = 'django-insecure-bu8sj-dd80ca20luk_(bo_tho55@wtmlpy^9k9gun$!f8&z4)&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+CORS_ALLOW_CREDENTIALS = True
+ALLOWED_HOSTS = ['192.168.1.4', 'localhost', '127.0.0.1' , "*"]
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,13 +41,39 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hrms',
+    'Core',
+    'EmpManagement',
+    'OrganisationManager',
+    'UserManagement',
     'rest_framework',
     'rest_framework_simplejwt',
-    "rest_framework_simplejwt.token_blacklist"
+    "rest_framework_simplejwt.token_blacklist",
+    'corsheaders',
+    'import_export',
+    # 'userdefinedfields',
+]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = [
+  "http://localhost:4200"   # Example for your frontend URL
+    # Add other allowed origins as needed
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,7 +81,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
+
+ 
+
+
+
 
 ROOT_URLCONF = 'zeo.urls'
 
@@ -125,14 +160,19 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "hrms.CustomUser"
+AUTH_USER_MODEL = "UserManagement.CustomUser"
 
-
+AUTHENTICATION_BACKENDS = [
+    # 'UserManagement.custom_auth.EmpLoginIdOrUsernameBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 #auth and permissions
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -150,7 +190,7 @@ REST_FRAMEWORK = {
 REST_USE_JWT = True
 SIMPLE_JWT = {
     # Customize token settings if needed
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=45),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
     
 
